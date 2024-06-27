@@ -32,9 +32,9 @@ app.get('/books/:id', (req,res) => {
 })
 
 app.post('/books', (req,res) => {
-    const {id, title, author, year} = req.body
-
-    const newBook = books.push({id: id, title: title, author: author, year: year}) 
+    const {title, author, year} = req.body
+    const id = books.length +1
+    const newBook = books.push({id, title: title, author: author, year: year}) 
 
     if(newBook === req.body) {
         return res.json({msg: "El libro ya existe"})
