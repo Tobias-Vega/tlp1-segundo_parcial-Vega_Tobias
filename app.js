@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const books = require('./books')
+const books = require('./books');
 
 const app = express();
 
@@ -14,12 +14,19 @@ app.use(cors());
 
 app.get('/books', (req,res) => {
     res.send(books)
+    if(!books) {
+        return res.status(404).json({msg: "Libro no encontrado"})
+    }
 })
 
 app.get('/books/:id', (req,res) => {
     const id = parseInt(req.params.id)
 
     const getBook = books.find((book) => book.id === id)
+
+    if(!getBook) {
+        return res.status(404).json({msg: "Libro no encontrado"})
+    }
 
     res.json(getBook)
 })
@@ -29,6 +36,10 @@ app.post('/books', (req,res) => {
 
     const newBook = books.push({id: id, title: title, author: author, year: year}) 
 
+    if(newBook === req.body) {
+        return res.json({msg: "El libro ya existe"})
+    }
+
     res.json({msg: "Libro creado correctamente"})
 })
 
@@ -37,6 +48,10 @@ app.put('/books/:id', (req,res) => {
     const {title, author, year} = req.body
 
     const getBook = books.find((book) => book.id === id)
+
+    if(!getBook) {
+        return res.status(404).json({msg: "El libro no existe"})
+    } 
 
     getBook.title = title
     getBook.author = author
@@ -49,6 +64,10 @@ app.delete('/books/:id', (req,res) => {
     const id = parseInt(req.params.id)
 
     const getBook = books.find((book) => book.id === id)
+
+    if(!getBook) {
+        return res.status(404).json({msg: "El libro no existe"})
+    }
 
     const indexBook = books.indexOf(getBook)
     const deleteBook = books.splice(indexBook, 1);
