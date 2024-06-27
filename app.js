@@ -53,7 +53,7 @@ app.delete('/books/:id', (req,res) => {
     const indexBook = books.indexOf(getBook)
     const deleteBook = books.splice(indexBook, 1);
 
-    res.json({msg: 'Libro eliminado'})
+    res.json({msg: 'Libro eliminado'});
 })
 
 
