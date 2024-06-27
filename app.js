@@ -13,7 +13,7 @@ app.use(cors());
 
 
 app.get('/books', (req,res) => {
-    res.send(libros)
+    res.send(books)
 })
 
 app.get('/books/:id', (req,res) => {
@@ -22,6 +22,14 @@ app.get('/books/:id', (req,res) => {
     const getBook = books.find((book) => book.id === id)
 
     res.json(getBook)
+})
+
+app.post('/books', (req,res) => {
+    const {id, title, author, year} = req.body
+
+    const newBook = books.push({id: id, title: title, author: author, year: year}) 
+
+    res.json({msg: "Libro creado correctamente"})
 })
 
 
